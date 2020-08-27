@@ -1,0 +1,2 @@
+class DataObject:
+    pass

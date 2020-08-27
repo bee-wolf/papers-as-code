@@ -1,2 +1,2 @@
-# papers-as-code
+# sentiment-analysis
 Turning research into modular code
