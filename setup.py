@@ -9,7 +9,7 @@ setuptools.setup(
     name='text-preprocessor',
     license='MIT',
     description='text-preprocessor is a library for preprocessing textual data',
-    version='v0.0.1',
+    version='v0.0.2',
     long_description=README,
     url='https://github.com/bee-wolf/text-preprocessor',
     packages=setuptools.find_packages(),
