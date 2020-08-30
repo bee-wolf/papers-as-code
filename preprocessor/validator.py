@@ -88,7 +88,7 @@ class Validator:
             custom_validation.severity = severity
         self.custom_validations.append((validation.__name__, custom_validation))
 
-    def validate(self) -> None:
+    def validate(self) -> Dict[str, Dict[str, str]]:
         validations = inspect.getmembers(sys.modules[__name__], self._is_validation) + self.custom_validations
         for name, validation in validations:
             data_validation = validation(self.X, self.y)
@@ -96,3 +96,4 @@ class Validator:
             if data_validation.result is False:
                 self.output[name] = self._get_failed_validation_details(data_validation)
         self.result = 'passed' if self.output == {} else 'failed'
+        return self.output
