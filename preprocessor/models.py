@@ -12,7 +12,7 @@ class Data(BaseModel):
 class Validation:
     def __init__(self, data: Data) -> None:
         self.data = data
-        self.description: str
+        self.message: str
         self.result: bool
 
     @abc.abstractmethod

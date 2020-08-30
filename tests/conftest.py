@@ -1,13 +1,11 @@
+# isort:skip
 import os
+import sys
 from typing import List, Union
 
 from preprocessor.models import Data
 
-try:
-    import sys
-    sys.path.append(os.getcwd())
-except ImportError:
-    pass
+sys.path.append(os.getcwd())
 
 
 def create_data_fixture(X: List[str], y: List[Union[str, int]]) -> Data:
