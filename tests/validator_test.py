@@ -11,10 +11,12 @@ def custom_validation_non_unique_X():
 
 
 @pytest.mark.parametrize('X, y, expected_result', [
-    (['', '', ''], [1, 2, 1], 'passed'),
-    (['', '', ''], [1, 1, 1], 'failed'),
+    (['1', '2', '3'], [1, 2, 1], 'passed'),
+    (['àéç', '2', '3'], [1, 2, 1], 'failed'),
+    (['1', '2', '3'], [1, 1, 1], 'failed'),
+    (['1', '2', '1'], [1, 2, 3], 'failed'),
 ])
-def test_validator_result(X: List[str], y: List[Union[str, int]], expected_result: str) -> None:
+def test_default_validations(X: List[str], y: List[Union[str, int]], expected_result: str) -> None:
     validator = Validator(X, y)
     validator.validate()
     assert validator.result == expected_result
