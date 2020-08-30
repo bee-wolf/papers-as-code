@@ -14,7 +14,7 @@ setuptools.setup(
     url='https://github.com/bee-wolf/text-preprocessor',
     packages=setuptools.find_packages(),
     python_requires='>=3.5',
-    install_requires=[],
+    install_requires=['numpy>=1.18.2'],
     classifiers=[
         # Trove classifiers
         # (https://pypi.python.org/pypi?%3Aaction=list_classifiers)
