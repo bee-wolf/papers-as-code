@@ -2,7 +2,6 @@ from typing import Callable, List, Union
 
 import pytest
 
-from conftest import create_data_fixture
 from preprocessor.validator import Validator
 
 
@@ -16,7 +15,7 @@ def custom_validation_non_unique_X():
     (['', '', ''], [1, 1, 1], 'failed'),
 ])
 def test_validator_result(X: List[str], y: List[Union[str, int]], expected_result: str) -> None:
-    validator = Validator(create_data_fixture(X, y))
+    validator = Validator(X, y)
     validator.validate()
     assert validator.result == expected_result
 
@@ -27,7 +26,7 @@ def test_validator_result(X: List[str], y: List[Union[str, int]], expected_resul
 ])
 def test_custom_validation(X: List[str], y: List[Union[str, int]], expected_result: str,
                            custom_validation_non_unique_X: Callable) -> None:
-    validator = Validator(create_data_fixture(X, y))
+    validator = Validator(X, y)
     validator.add_custom_validation(custom_validation_non_unique_X)
     validator.validate()
     assert validator.result == expected_result

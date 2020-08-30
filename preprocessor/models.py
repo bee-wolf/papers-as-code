@@ -1,17 +1,11 @@
 import abc
 from typing import List, Union
 
-from pydantic import BaseModel
-
-
-class Data(BaseModel):
-    X: List[str]
-    y: List[Union[str, int]]
-
 
 class Validation:
-    def __init__(self, data: Data) -> None:
-        self.data = data
+    def __init__(self, X: List[str], y: List[Union[str, int]]) -> None:
+        self.X = X
+        self.y = y
         self.message: str
         self.result: bool
 

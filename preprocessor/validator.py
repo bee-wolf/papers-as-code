@@ -1,29 +1,33 @@
 import inspect
 import sys
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any, Callable, Dict, List, Tuple, Union
 
-from preprocessor.models import Data, Validation
+from preprocessor.models import Validation
 
 
 def create_custom_validation(custom_check: Callable) -> Validation:
+    def custom_init(self, X, y):
+        self.X = X
+        self.y = y
     CustomValidation = type('CustomValidation', (Validation,),
-                            {'__init__': lambda self, data: setattr(self, 'data', data),
-                             'check': lambda self: custom_check(self.data.X, self.data.y)})
+                            {'__init__': custom_init,
+                             'check': lambda self: custom_check(self.X, self.y)})
     return CustomValidation
 
 
 class CheckMultipleClasses(Validation):
-    def __init__(self, data: Data) -> None:
-        super().__init__(data=data)
+    def __init__(self, X: List[str], y: List[Union[str, int]]) -> None:
+        super().__init__(X=X, y=y)
         self.message = 'Single class detected'
 
     def check(self) -> bool:
-        return len(set(self.data.y)) > 1
+        return len(set(self.y)) > 1
 
 
 class Validator:
-    def __init__(self, data: Data) -> None:
-        self.data = data
+    def __init__(self, X: List[str], y: List[Union[str, int]]) -> None:
+        self.X = X
+        self.y = y
         self.custom_validations: List[Tuple[str, Validation]] = []
         self.output: Dict[str, Dict[str, str]] = {}
         self.result: str
@@ -43,7 +47,7 @@ class Validator:
     def validate(self) -> None:
         validations = inspect.getmembers(sys.modules[__name__], self._is_validation) + self.custom_validations
         for name, validation in validations:
-            data_validation = validation(self.data)
+            data_validation = validation(self.X, self.y)
             data_validation.run()
             if not data_validation.result:
                 self.output[name] = self._get_failed_validation_details(data_validation)
